@@ -55,7 +55,7 @@ public class RinhaApplication {
                         // receiveFullBytes reads body on I/O thread (non-blocking),
                         // then calls the callback with all bytes ready.
                         exchange.getRequestReceiver().receiveFullBytes(
-                                (exch, bytes) -> vt.execute(() -> {
+                                (exch, bytes) -> exch.dispatch(vt, () -> {
                                     try {
                                         FraudRequest  req  = mapper.readValue(bytes, FraudRequest.class);
                                         FraudResponse resp = service.evaluate(req);
@@ -65,7 +65,9 @@ public class RinhaApplication {
                                         // duplicate() so each send gets its own position/limit
                                         exch.getResponseSender().send(RESPONSES[idx].duplicate());
                                     } catch (Exception e) {
-                                        exch.setStatusCode(500);
+                                        if (!exch.isResponseStarted()) {
+                                            exch.setStatusCode(500);
+                                        }
                                         exch.endExchange();
                                     }
                                 }),
