@@ -1,0 +1,7 @@
+target/
+*.class
+*.iml
+.idea/
+.DS_Store
+resources/references.json.gz
+resources/normalization.json
