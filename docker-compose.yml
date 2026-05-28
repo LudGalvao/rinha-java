@@ -22,7 +22,7 @@ services:
       - backend
 
   api01:
-    image: ghcr.io/ludgalvao/rinha-java:latest
+    image: ghcr.io/ludgalvao/rinha-java-submission:latest
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 5s
@@ -38,7 +38,7 @@ services:
       - backend
 
   api02:
-    image: ghcr.io/ludgalvao/rinha-java:latest
+    image: ghcr.io/ludgalvao/rinha-java-submission:latest
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 5s
