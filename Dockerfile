@@ -10,10 +10,9 @@ RUN mvn -q dependency:go-offline
 COPY src ./src
 RUN mvn -q package -DskipTests
 
-# Copy reference files alongside the JAR
-COPY resources/references.json.gz references.json.gz
+# Keep the build self-contained in CI even though the full dataset is not versioned here.
+ADD https://raw.githubusercontent.com/zanfranceschi/rinha-de-backend-2026/main/resources/references.json.gz references.json.gz
 COPY resources/mcc_risk.json      mcc_risk.json
-COPY resources/normalization.json normalization.json
 
 # Shade plugin produces a flat JAR — run IndexBuilder directly with -cp
 RUN java -Xmx1g \
